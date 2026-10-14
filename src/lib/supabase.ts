@@ -1,9 +1,20 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+let client: SupabaseClient | null = null;
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+/**
+ * Created on first use rather than on import, so the registration form still opens when the
+ * env settings are missing; only sending fails. Returns null when they are not set.
+ */
+export function getSupabase(): SupabaseClient | null {
+  if (!client) {
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+    const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+    if (!supabaseUrl || !supabaseAnonKey) return null;
+    client = createClient(supabaseUrl, supabaseAnonKey);
+  }
+  return client;
+}
 
 export type Tenant = {
   id: string;

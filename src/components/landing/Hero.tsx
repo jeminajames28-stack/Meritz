@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
-import LogoLockup from '@/components/ui/LogoLockup';
+import bintangLogo from '@/images/logo_b.png';
+import meritzLogo from '@/images/m_logo.png';
 import hotelRoom from '@/images/optimised/hotel-room.webp';
 import { REGISTRATION_DEADLINE, SECTION_IDS } from '@/content';
 import { formatDate } from '@/lib/format';
@@ -15,7 +16,7 @@ export default function Hero({ onRegister, onTvAds }: Props) {
   const sectionRef = useRef<HTMLElement>(null);
   const labelRef = useRef<HTMLParagraphElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
-  const sentenceRef = useRef<HTMLParagraphElement>(null);
+  const logoRef = useRef<HTMLImageElement>(null);
   const actionsRef = useRef<HTMLDivElement>(null);
   const mainDriftRef = useRef<HTMLDivElement>(null);
   const photoRef = useRef<HTMLDivElement>(null);
@@ -33,13 +34,13 @@ export default function Hero({ onRegister, onTvAds }: Props) {
       const section = sectionRef.current;
       const label = labelRef.current;
       const title = titleRef.current;
-      const sentence = sentenceRef.current;
+      const logo = logoRef.current;
       const actions = actionsRef.current;
       const mainDrift = mainDriftRef.current;
       const photo = photoRef.current;
       const hotelDrift = hotelDriftRef.current;
       const hotel = hotelRef.current;
-      if (!section || !label || !title || !sentence || !actions || !mainDrift || !photo || !hotelDrift || !hotel) {
+      if (!section || !label || !title || !logo || !actions || !mainDrift || !photo || !hotelDrift || !hotel) {
         return;
       }
 
@@ -49,7 +50,7 @@ export default function Hero({ onRegister, onTvAds }: Props) {
         const tl = gsap.timeline({ defaults: { ease: EASE.enter } });
 
         tl.from(label, { autoAlpha: 0, y: 16, duration: DURATION.base }, 0)
-          .from([sentence, actions], { autoAlpha: 0, y: 16, duration: DURATION.base, stagger: 0.1 }, 0.4)
+          .from([logo, actions], { autoAlpha: 0, y: 16, duration: DURATION.base, stagger: 0.1 }, 0.4)
           .fromTo(
             photo,
             { clipPath: 'inset(18% 0 0 0 round 10px)' },
@@ -88,7 +89,7 @@ export default function Hero({ onRegister, onTvAds }: Props) {
 
       // Phones: text only. The photo is the largest paint on the first screen, so it is left alone.
       mm.add(MOTION_QUERIES.phone, () => {
-        gsap.timeline().from([label, title, sentence, actions], {
+        gsap.timeline().from([label, title, logo, actions], {
           autoAlpha: 0,
           y: 16,
           duration: DURATION.base,
@@ -105,7 +106,13 @@ export default function Hero({ onRegister, onTvAds }: Props) {
   return (
     <section ref={sectionRef} id="hero" aria-labelledby="hero-title" className="flex min-h-[88svh] flex-col">
       <div className="page flex flex-1 flex-col pt-6">
-        <LogoLockup />
+        <img
+          src={meritzLogo}
+          alt="Meritz Hotel"
+          width={699}
+          height={357}
+          className="h-12 w-auto self-start lg:h-16"
+        />
 
         <div className="grid flex-1 content-start gap-6 pt-10 lg:grid-cols-[7fr_5fr] lg:content-center lg:items-center lg:gap-10 lg:pb-10 lg:pt-16">
           <div>
@@ -113,16 +120,16 @@ export default function Hero({ onRegister, onTvAds }: Props) {
               Bintang Megamall × Meritz Hotel
             </p>
             <h1 ref={titleRef} id="hero-title" className="h-hero mt-4">
-              Thirty years.{' '}
-              <br />
-              <i className="text-brand-primary">Your shop’s</i> turn.
+              Exclusive Opportunity <i className="text-brand-primary">for Bintang Tenants</i>
             </h1>
-            <p
-              ref={sentenceRef}
-              className="mt-4 max-w-sm text-brand-muted lg:mt-6 lg:text-[17px] lg:leading-[26px]"
-            >
-              Add one voucher. We feature your shop on screens and posters across the mall.
-            </p>
+            <img
+              ref={logoRef}
+              src={bintangLogo}
+              alt="Bintang Megamall"
+              width={796}
+              height={313}
+              className="mt-6 block h-14 w-auto lg:mt-8 lg:h-[72px]"
+            />
 
             <div ref={actionsRef} className="mt-6">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-6">

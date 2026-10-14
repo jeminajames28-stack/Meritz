@@ -1,7 +1,8 @@
-import { supabase, type TenantInput, type VoucherInput } from '@/lib/supabase';
+import { getSupabase, type TenantInput, type VoucherInput } from '@/lib/supabase';
 
 const NETWORK_ERROR = "Couldn't send. Check your connection and try again.";
 const INVALID_ERROR = 'Some details need checking. Please review and try again.';
+const NOT_CONFIGURED_ERROR = "Registration isn't connected yet, so this couldn't be sent. Please try again later.";
 
 /**
  * Saves the shop and its vouchers in one step. Visitors have no direct access
@@ -12,6 +13,12 @@ export async function registerTenant(
   tenant: TenantInput,
   vouchers: VoucherInput[],
 ): Promise<{ id: string }> {
+  const supabase = getSupabase();
+  if (!supabase) {
+    console.error('register_tenant skipped: VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY is not set');
+    throw new Error(NOT_CONFIGURED_ERROR);
+  }
+
   let result;
   try {
     result = await supabase.rpc('register_tenant', {

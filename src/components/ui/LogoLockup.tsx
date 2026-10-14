@@ -1,4 +1,4 @@
-import bintangLogo from '@/images/optimised/logo-bintang-30.webp';
+import bintangLogo from '@/images/logo_b.png';
 import meritzLogo from '@/images/optimised/logo-meritz.webp';
 
 type Props = {
@@ -7,17 +7,17 @@ type Props = {
   className?: string;
 };
 
-/** Bintang Megamall 30th Anniversary and Meritz Hotel logos side by side. Light backgrounds only. */
+/** Bintang Megamall and Meritz Hotel logos side by side. Light backgrounds only. */
 export default function LogoLockup({ size = 'md', className = '' }: Props) {
-  const bintangH = size === 'sm' ? 22 : 28;
+  const bintangH = size === 'sm' ? 26 : 32;
   const meritzH = size === 'sm' ? 20 : 25;
   return (
     <div className={`flex items-center gap-4 ${className}`}>
       <img
         src={bintangLogo}
-        alt="Bintang Megamall 30th Anniversary"
+        alt="Bintang Megamall"
         height={bintangH}
-        width={Math.round((488 / 112) * bintangH)}
+        width={Math.round((796 / 313) * bintangH)}
         style={{ height: bintangH, width: 'auto' }}
       />
       <span aria-hidden="true" className="h-6 w-px bg-brand-line" />

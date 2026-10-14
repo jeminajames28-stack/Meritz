@@ -10,10 +10,9 @@ type Props = {
 const BAR_BUTTON =
   'flex h-12 w-full touch-manipulation items-center justify-center text-[13px] font-medium uppercase tracking-[0.08em] transition-colors active:bg-brand-soft focus-visible:outline-offset-[-4px] motion-reduce:transition-none';
 
-/** Desktop corner buttons and the phone bottom bar. Both appear once the first screen has scrolled away. */
+/** Desktop corner buttons, always on screen, and the phone bottom bar, which appears once the first screen has scrolled away. */
 export default function FloatingActions({ onRegister, onTvAds }: Props) {
   const navRef = useRef<HTMLElement>(null);
-  const cornerRef = useRef<HTMLDivElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
 
   // Focus follows the scroll, so keyboard and screen reader users land in section 02 too.
@@ -25,10 +24,9 @@ export default function FloatingActions({ onRegister, onTvAds }: Props) {
   useGSAP(
     () => {
       const nav = navRef.current;
-      const corner = cornerRef.current;
       const bar = barRef.current;
       const hero = document.getElementById('hero');
-      if (!nav || !corner || !bar || !hero) return;
+      if (!nav || !bar || !hero) return;
 
       // While hidden, the buttons are skipped by Tab and screen readers, not only faded out.
       const setReachable = (reachable: boolean) => {
@@ -61,53 +59,14 @@ export default function FloatingActions({ onRegister, onTvAds }: Props) {
       };
 
       const reset = () => {
-        gsap.killTweensOf([corner, bar]);
-        gsap.set([corner, bar], { clearProps: 'opacity,visibility,transform' });
+        gsap.killTweensOf(bar);
+        gsap.set(bar, { clearProps: 'opacity,visibility,transform' });
         nav.inert = false;
         nav.style.visibility = '';
       };
 
+      // Desktop has no branch: the corner buttons stay visible from the first screen onwards.
       const mm = gsap.matchMedia();
-
-      mm.add(MOTION_QUERIES.desktop, () => {
-        let past = false;
-        let focused = false;
-        let shown = false;
-        setReachable(false);
-        gsap.set(corner, { autoAlpha: 0 });
-
-        const sync = () => {
-          const visible = past || focused;
-          if (visible === shown) return;
-          shown = visible;
-          if (visible) {
-            setReachable(true);
-            gsap.to(corner, { autoAlpha: 1, duration: DURATION.fast, ease: EASE.enter, overwrite: true });
-          } else {
-            gsap.to(corner, {
-              autoAlpha: 0,
-              duration: DURATION.fast,
-              ease: EASE.exit,
-              overwrite: true,
-              onComplete: () => setReachable(false),
-            });
-          }
-        };
-
-        watchHero((isPast) => {
-          past = isPast;
-          sync();
-        });
-        const unwatchFocus = watchFocus(corner, (inside) => {
-          focused = inside;
-          sync();
-        });
-
-        return () => {
-          unwatchFocus();
-          reset();
-        };
-      });
 
       mm.add(MOTION_QUERIES.phone, () => {
         let past = false;
@@ -175,8 +134,8 @@ export default function FloatingActions({ onRegister, onTvAds }: Props) {
         };
       });
 
-      // Reduced motion: no fading or sliding, the actions simply become available after the hero.
-      mm.add('(prefers-reduced-motion: reduce)', () => {
+      // Reduced motion on phones: no sliding, the bar simply becomes available after the hero.
+      mm.add('(max-width: 1023.98px) and (prefers-reduced-motion: reduce)', () => {
         let past = false;
         let focused = false;
         const sync = () => setReachable(past || focused);
@@ -204,7 +163,7 @@ export default function FloatingActions({ onRegister, onTvAds }: Props) {
 
   return (
     <nav ref={navRef} aria-label="Quick actions">
-      <div ref={cornerRef} className="fixed right-10 top-6 z-40 hidden gap-2 lg:flex">
+      <div className="fixed right-10 top-6 z-40 hidden gap-2 lg:flex">
         <button
           type="button"
           onClick={onRegister}
