@@ -1,3 +1,141 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 24px;
+  }
+
+  /* Phones: keep focused fields and anchors clear of the fixed bottom bar. */
+  @media (max-width: 1023.98px) {
+    html {
+      scroll-padding-bottom: calc(48px + env(safe-area-inset-bottom));
+    }
+  }
+
+  /* Desktop: keep anchors clear of the fixed corner buttons. */
+  @media (min-width: 1024px) {
+    html {
+      scroll-padding-top: 72px;
+    }
+  }
+
+  body {
+    @apply bg-brand-surface font-sans text-brand-ink antialiased;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  ::selection {
+    @apply bg-brand-border text-brand-deep;
+  }
+
+  :focus-visible {
+    outline: 2px solid theme('colors.brand.primary');
+    outline-offset: 2px;
+  }
+
+  .on-dark :focus-visible {
+    outline-color: theme('colors.brand.pink');
+  }
+}
+
+@layer components {
+  /* Page width and the fixed spacing scale: 24 px side margin on phones, 40 px from 1024 px. */
+  .page {
+    @apply mx-auto w-full max-w-[1200px] px-6 lg:px-10;
+  }
+
+  @media (max-width: 359.98px) {
+    .page {
+      @apply px-4;
+    }
+  }
+
+  .section-y {
+    @apply py-10 lg:py-16;
+  }
+
+  .label {
+    @apply text-xs font-medium uppercase tracking-[0.14em];
+  }
+
+  .h-hero {
+    @apply font-serif text-[44px] leading-[0.95] tracking-[-0.015em] text-brand-deep;
+  }
+
+  @media (min-width: 1024px) {
+    .h-hero {
+      font-size: clamp(64px, 6.6vw, 96px);
+    }
+  }
+
+  .h-section {
+    @apply font-serif text-[34px] leading-none tracking-[-0.015em] text-brand-deep lg:text-[56px];
+  }
+
+  .btn {
+    @apply inline-flex min-h-12 items-center justify-center gap-2.5 rounded-md px-[18px] text-[13px] font-medium uppercase tracking-[0.08em] transition-colors duration-200 motion-reduce:transition-none;
+    touch-action: manipulation;
+  }
+
+  .btn-primary {
+    @apply btn bg-brand-primary text-white hover:bg-brand-primary-hover active:bg-brand-primary-hover;
+  }
+
+  .btn-deep {
+    @apply btn bg-brand-deep text-white hover:bg-brand-deepest active:bg-brand-deepest;
+  }
+
+  .btn-outline {
+    @apply btn border border-brand-deep text-brand-deep hover:bg-brand-soft active:bg-brand-soft;
+  }
+
+  .btn .btn-arrow {
+    @apply transition-transform duration-200 motion-reduce:transition-none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .btn:hover .btn-arrow {
+      transform: translateX(4px);
+    }
+  }
+
+  .text-link {
+    @apply inline-flex min-h-11 items-center border-b border-current pb-0.5 text-[13px] font-medium uppercase tracking-[0.08em] text-brand-deep transition-colors hover:text-brand-primary;
+  }
+
+  /* Ticket-style voucher card. --notch must match the background behind the card. */
+  .ticket {
+    @apply relative grid grid-cols-[1fr_auto] rounded-[10px] border border-brand-line bg-white;
+    --stub: 84px;
+  }
+
+  .ticket::before,
+  .ticket::after {
+    content: '';
+    position: absolute;
+    left: calc(100% - var(--stub));
+    width: 14px;
+    height: 14px;
+    border-radius: 9999px;
+    background: var(--notch, theme('colors.brand.surface'));
+    border: 1px solid theme('colors.brand.line');
+    transform: translateX(-50%);
+  }
+
+  .ticket::before {
+    top: -8px;
+  }
+
+  .ticket::after {
+    bottom: -8px;
+  }
+
+  .ticket-stub {
+    @apply flex flex-col items-center justify-center border-l border-dashed border-brand-border px-2;
+    width: var(--stub);
+  }
+}

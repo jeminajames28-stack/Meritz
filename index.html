@@ -2,12 +2,53 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bintang Megamall · 30th Anniversary Tenant Registration</title>
-    <meta property="og:image" content="https://bolt.new/static/og_default.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Bintang Megamall 30th Anniversary × Meritz Hotel · Tenant registration</title>
+    <meta
+      name="description"
+      content="Bintang Megamall tenants: register your shop and an anniversary voucher, and advertise on 290 Meritz Hotel room TVs."
+    />
+    <meta name="theme-color" content="#fff8fa" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Thirty years. Your shop's turn." />
+    <meta
+      property="og:description"
+      content="Register your shop and voucher for the Bintang Megamall 30th Anniversary, and advertise on Meritz Hotel TVs."
+    />
+    <meta property="og:image" content="https://meritz-30th.netlify.app/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="https://bolt.new/static/og_default.png" />
+    <meta name="twitter:image" content="https://meritz-30th.netlify.app/og-image.jpg" />
+
+    <!-- Hero photo: must match the <picture> in src/components/landing/Hero.tsx. -->
+    <link
+      rel="preload"
+      as="image"
+      type="image/webp"
+      media="(max-width: 1023.98px)"
+      imagesrcset="/hero/mall-640.webp 640w, /hero/mall-960.webp 960w"
+      imagesizes="calc(100vw - 48px)"
+      fetchpriority="high"
+    />
+    <link
+      rel="preload"
+      as="image"
+      type="image/webp"
+      media="(min-width: 1024px)"
+      imagesrcset="/hero/mall-640.webp 640w, /hero/mall-960.webp 960w, /hero/mall-1188.webp 1188w"
+      imagesizes="480px"
+      fetchpriority="high"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap"
+    />
   </head>
   <body>
     <div id="root"></div>
